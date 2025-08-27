@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TecZoneOfcs</title>
+    <style>
+        /* General Styles */
+        :root {
+            --primary-color: #FF6B00;
+            --secondary-color: #FFA500;
+            --background-color: #0A0A0A;
+            --text-color: #F0F0F0;
+            --card-color: #1A1A1A;
+            --gradient-start: #FF6B00;
+            --gradient-end: #FFA500;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--primary-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            margin: 10px auto 0;
+        }
+        
+        /* Fade-in Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+        
+        .fade-in.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Animations */
+        @keyframes glow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header & Navigation */
+        .header {
+            background-color: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .header.scrolled {
+            background-color: var(--background-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+            text-transform: ;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 10px 15px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .nav-links li a:hover {
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        /* Mobile menu button (hidden on desktop) */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        #hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(90deg, var(--background-color), var(--primary-color), var(--background-color));
+            background-size: 200% 200%;
+            animation: glow 15s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px var(--primary-color);
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            animation: fadeIn 2s ease-out;
+        }
+
+        .cta-button {
+            background-color: var(--background-color);
+            color: var(--primary-color);
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border: 2px solid transparent;
+        }
+
+        .cta-button:hover {
+            background-color: transparent;
+            color: var(--background-color);
+            border: 2px solid var(--background-color);
+            transform: scale(1.05);
+        }
+
+        /* Services Section */
+        #services {
+            padding: 100px 0;
+            background-color: var(--background-color);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .service-card {
+            background-color: var(--card-color);
+            padding: 40px;
+            border-radius: 10px;
+            border-left: 5px solid var(--primary-color);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .service-card h3 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .service-card p {
+            font-size: 1rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        /* tools Section */
+        #tools {
+            padding: 100px 0;
+            background-color: var(--card-color);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .tools-card {
+            background-color: var(--background-color);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+        }
+
+        .tools-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .tools-card h3 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .tools-card .tools {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+
+        .tools-card .tools sup {
+            font-size: 1.5rem;
+            vertical-align: super;
+            color: var(--primary-color);
+        }
+
+        .tools-card .duration {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        .tools-card ul {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .tools-card ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tools-card .cta-button {
+            width: 80%;
+            padding: 12px 20px;
+        }
+
+        /* Portfolio Section */
+        #portfolio {
+            padding: 100px 0;
+            background-color: var(--background-color);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .portfolio-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+
+        .portfolio-overlay-text {
+            color: var(--text-color);
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Parallax Section */
+        .parallax {
+            background-image: url('https://images.unsplash.com/photo-1517436069902-601e3b6f007c?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .parallax::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        
+        .parallax-content {
+            z-index: 2;
+        }
+        
+        .parallax-content h2 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .parallax-content p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--card-color);
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255, 107, 0, 0.2);
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Mobile menu */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px; /* Adjust based on header height */
+                left: 0;
+                width: 100%;
+                background-color: var(--background-color);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li a {
+                padding: 15px;
+                text-align: center;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        /* Responsive Design for all sections */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .services-grid, .tools-grid, .portfolio-grid, .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .parallax {
+                background-attachment: scroll; /* Disable parallax on mobile for better performance */
+                height: 300px;
+            }
+            
+            .parallax-content h2 {
+                font-size: 2rem;
+            }
+            
+            .parallax-content p {
+                font-size: 1rem;
+            }
+
+            .contact-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container nav">
+            <a href="#" class="logo">TechZoneOfcs</a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#tools">tools</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="menu-toggle">&#9776;</div>
+        </div>
+    </header>
+
+    <section id="hero">
+        <div class="hero-content fade-in">
+            <h1>Your Prosperity, Our Priority</h1>
+            <p>Providing financial services & financial products with a commitment to excellence and innovation.</p>
+            <p>Also provide BBPS and banking services portal for business owners.</p>
+            <a href="#services" class="cta-button">Explore Our Services</a>
+        </div>
+    </section>
+    
+    <section id="about">
+        <div class="container fade-in">
+            <h2 class="section-title">About Us</h2>
+            <div class="about-content">
+                <p>
+                    Welcome to TechZoneOfcs, where financial needs meets with technology. We are a team of dedicated professionals passionate about consulting your financial solutions. Our mission is to empower businesses and individuals by providing best-quality, customized services that drive growth and success.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <div class="container fade-in">
+            <h2 class="section-title">Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Build Credit Score</h3>
+                    <p>If you have no past credit history or a bad credit records then you can build a good credit score in just 4-6 months. No Donation and  Zero Charges.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Credit Cards</h3>
+                    <p>If you have a minimum credit score then you can apply india's top bank's credit card. There many varients and offers for multiple cards. No Joining fees and Zero Annual Charges.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Loans</h3>
+                    <p>If you have needs emergency fund of Loans for any purpose. Then you will check out this. india's top bank' and financial companies are partnershiped with us. All types of loans(Home loan, Business loans, micro loans, etc).</p>
+                </div>
+                <div class="service-card">
+                    <h3>Bank Accounts</h3>
+                    <p>All types of saving accounts we are provided. if you have need any then open at your home through VKYC, our team will be provided fully guidance. Zero Balance Savings Bank Account are mostly people opend.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="tools">
+        <div class="container fade-in">
+            <h2 class="section-title">Our Premium Tools</h2>
+            <div class="tools-grid">
+                <div class="tools-card">
+                    <h3>Check Credit Score</h3>
+                    <div class="tools"><sup></sup></div>
+                    <div class="duration">FREE</div>
+                    <ul>
+                        <li>Provide your all details correct for check right credit score. This tools are fully secured and encrypted.</li>
+                        <li>Enter Professional details and Income details.</li>
+                        <li>Enter actual PAN No and Aadhar Card linked Mobile No.</li>
+                        <li>Click Submit and your cred score will be shown to you.</li>
+                    </ul>
+                    <a href="#" class="cta-button">CLICK HERE</a>
+                </div>
+                <div class="tools-card">
+                    <h3>EMI CALCULATOR</h3>
+                    <div class="tools"><sup></sup></div>
+                    <div class="duration">FREE</div>
+                    <ul>
+                        <li>Calculate Your Loans EMI</li>
+                        <li>Enter Loan amount, Rate of interest and Lpan tenure.</li>
+                        <li></li>
+                        <li>Click on Submit and get your EMI details.</li>
+                    </ul>
+                    <a href="#" class="cta-button">CLICK HERR</a>
+                </div>
+                <div class="tools-card">
+                    <h3>CHECK TRAFIC CHALAN</h3>
+                    <div class="tools"><sup></sup></div>
+                    <div class="duration">FREE</div>
+                    <ul>
+                        <li>Check and Pay your Vehicle Chalan on time.</li>
+                        <li>Enter Vehicle number and get all details of this vehicle.</li>
+                        <li>Check pending chalans, insurance, pucc, etc.</li>
+                        <li>Click on Pay Chanlan for payment your dues.</li>
+                    </ul>
+                    <a href="#" class="cta-button">CLICK HERR</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="parallax">
+        <div class="parallax-content fade-in">
+            <h2>See Our Work in Action</h2>
+            <p>Our passion for quality is reflected in every project we deliver. Browse our portfolio to witness the results for yourself.</p>
+        </div>
+    </section>
+
+    <section id="portfolio">
+        <div class="container fade-in">
+            <h2 class="section-title">Our Recent Projects</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1542435503-956c469947f6?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Project 1">
+                    <div class="portfolio-overlay">
+                        <div class="portfolio-overlay-text">Project One</div>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1550592704-6c3619097bc3?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Project 2">
+                    <div class="portfolio-overlay">
+                        <div class="portfolio-overlay-text">Project Two</div>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2672&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Project 3">
+                    <div class="portfolio-overlay">
+                        <div class="portfolio-overlay-text">Project Three</div>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1582213162705-e412a640989f?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Project 4">
+                    <div class="portfolio-overlay">
+                        <div class="portfolio-overlay-text">Project Four</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials">
+        <div class="container fade-in">
+            <h2 class="section-title">What Our Clients Say</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p>"YourBrand's team exceeded our expectations! Their work was professional, timely, and truly outstanding. Highly recommended for anyone looking for top-tier services."</p>
+                    <div class="client-info">- Jane Doe, CEO of TechCorp</div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Working with them was a seamless experience. They listened to our needs and delivered a solution that perfectly matched our vision. We are thrilled with the results."</p>
+                    <div class="client-info">- John Smith, Founder of Innovate Labs</div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"The quality and attention to detail are unmatched. They are not just a service provider; they are true partners in your success. Thank you!"</p>
+                    <div class="client-info">- Sarah Lee, Marketing Director</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container fade-in">
+            <h2 class="section-title">Get in Touch</h2>
+            <form action="#" method="post" class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="submit-button">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 TechZoneOfcs. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Header fade-in on scroll
+        const header = document.querySelector('.header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Dynamic fade-in for sections
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.2
+        });
+
+        document.querySelectorAll('.fade-in').forEach(element => {
+            observer.observe(element);
+        });
+
+        // Parallax Effect
+        const parallaxSection = document.querySelector('.parallax');
+        window.addEventListener('scroll', () => {
+            let offset = window.pageYOffset;
+            parallaxSection.style.backgroundPositionY = offset * 0.5 + 'px';
+        });
+
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
